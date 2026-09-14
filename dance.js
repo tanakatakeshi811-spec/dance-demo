@@ -7,6 +7,8 @@
    ■ データの形
      DANCE.poses  … 「ポーズ集」。関節名 -> [X回転, Y回転, Z回転]（単位は度）
                      root だけ特別で { p:[x,y,z]（移動）, r:[x,y,z]（回転） }
+                     ※ p の y は「床から浮かせる量」。マイナスにしても効かない
+                       （沈み込みは膝を曲げて表現する。足は自動で接地するため）
      DANCE.keys   … 「何拍目にどのポーズへ行くか」の並び。ease は補間の効き方
      DANCE.groove … ポーズとは別にうっすら乗せる縦ノリ・左右の揺れ
 
@@ -75,7 +77,7 @@ DANCE_POSES.beckonOpen = {
 
 /* 手招きの引く瞬間。前腕をぐっと手前に折りたたんで、頭も小さく頷く */
 DANCE_POSES.beckonPull = {
-  root: { p: [0, -0.05, -0.04], r: [0, 0, 0] },
+  root: { p: [0, 0, -0.04], r: [0, 0, 0] },
   spine: [6, 0, 0], chest: [3, 0, 0], neck: [12, 0, 0], head: [13, 0, 0],
   armL: [-14, 12, 8], elbowL: [-148, 0, 14],
   armR: [-14, -12, -8], elbowR: [-148, 0, -14],
@@ -85,7 +87,7 @@ DANCE_POSES.beckonPull = {
 
 /* 腕を後ろに振り下ろして沈む（踏み出す前の溜め） */
 DANCE_POSES.armsDrop = {
-  root: { p: [0, -0.06, 0], r: [0, 0, 0] },
+  root: { p: [0, 0, 0], r: [0, 0, 0] },
   spine: [14, 0, 0], chest: [6, 0, 0], neck: [-4, 0, 0], head: [-6, 0, 0],
   armL: [26, 0, -10], elbowL: [-14, 0, 0],
   armR: [26, 0, 10], elbowR: [-14, 0, 0],
@@ -142,11 +144,11 @@ DANCE_POSES.openL = {
 };
 DANCE_POSES.openR = danceMirror(DANCE_POSES.openL);
 
-/* ---------- D. 主役の動き2：頭上を横切るスワイプ ---------- */
-/* 体を斜めに開き、遠い側の腕を顔の前〜頭の上を通して同じ方向へ払う。
-   もう一方の腕は胸の前に低く抱え込む。参考動画でいちばん印象的な瞬間。 */
+/* ---------- D. 主役の動き2：体をひねって払うスワイプ ---------- */
+/* 体を斜めに開き、両腕を同じ方向へ払う。近いほうの腕は斜め上へ、
+   遠いほうの腕は胸の前を横切って同じ方向へ。前脚をぐっと遠くへ伸ばす。 */
 DANCE_POSES.swipeL = {
-  root: { p: [0.11, -0.02, 0], r: [0, -28, 0] },
+  root: { p: [0.11, 0, 0], r: [0, -28, 0] },
   hips: [0, 0, 4],
   spine: [8, -12, 10], chest: [4, -10, 8],
   neck: [-2, 14, -6], head: [6, 17, -8],
@@ -165,7 +167,7 @@ DANCE_POSES.swipeR = danceMirror(DANCE_POSES.swipeL);
 
 /* 上体を大きく前へ倒し、両腕を前に投げ出す */
 DANCE_POSES.reachFwd = {
-  root: { p: [0, -0.04, 0.05], r: [0, 0, 0] },
+  root: { p: [0, 0, 0.05], r: [0, 0, 0] },
   spine: [20, 0, 0], chest: [7, 0, 0], neck: [-15, 0, 0], head: [-13, 0, 0],
   armL: [-86, 40, 34], elbowL: [-16, 0, 16],
   armR: [-86, -40, -34], elbowR: [-16, 0, -16],
@@ -203,9 +205,11 @@ const DANCE = {
   bpm: 138,
   lengthBeats: 28,
   loop: true,
-  /* ポーズとは別に薄く乗せる縦ノリ。amp=上下の幅(m)、per=周期(拍) */
+  /* ポーズとは別に薄く乗せる揺れ。
+     bob=拍ごとに沈む縦ノリ(膝を余分に曲げる角度・度)、
+     sway=左右への体の傾き(度)、headBob=頭の小さな上下(度)。per は周期(拍) */
   groove: {
-    bob: { amp: 0.028, per: 1 },
+    bob: { amp: 7, per: 1 },
     sway: { amp: 1.1, per: 4 },
     headBob: { amp: 2.2, per: 1 }
   },
@@ -224,53 +228,53 @@ const DANCE = {
 
     /* --- B1 主役の動き：左へ4連 → 右へ4連 --- */
     { b: 4.50, pose: 'openL', ease: 'outBack', label: '斜め（左）' },
-    { b: 5.00, pose: 'guardR', ease: 'inOutQuad', label: '構え' },
+    { b: 5.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
     { b: 5.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
-    { b: 6.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 6.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 6.50, pose: 'openL', ease: 'outBack', label: '斜め（左）' },
-    { b: 7.00, pose: 'guardR', ease: 'inOutQuad', label: '構え' },
+    { b: 7.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
     { b: 7.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
-    { b: 8.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 8.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 8.50, pose: 'openR', ease: 'outBack', label: '斜め（右）' },
-    { b: 9.00, pose: 'guardL', ease: 'inOutQuad', label: '構え' },
+    { b: 9.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
     { b: 9.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
-    { b: 10.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 10.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 10.50, pose: 'openR', ease: 'outBack', label: '斜め（右）' },
-    { b: 11.00, pose: 'guardL', ease: 'inOutQuad', label: '構え' },
+    { b: 11.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
     { b: 11.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
-    { b: 12.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 12.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
 
     /* --- B2 差し色：前へ投げる → 真横に開く → 左右のスワイプ --- */
     { b: 12.50, pose: 'reachFwd', ease: 'outCubic', label: '前へ投げる' },
-    { b: 13.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 13.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 13.50, pose: 'armsWide', ease: 'outBack', label: '真横に開く' },
-    { b: 14.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 14.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 14.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
-    { b: 15.00, pose: 'guardR', ease: 'inOutQuad', label: '構え' },
+    { b: 15.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
     { b: 15.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
-    { b: 16.00, pose: 'guardL', ease: 'inOutQuad', label: '構え' },
+    { b: 16.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
 
     /* --- B3 主役の動き（2周目）：右から入って左へ --- */
     { b: 16.50, pose: 'openR', ease: 'outBack', label: '斜め（右）' },
-    { b: 17.00, pose: 'guardL', ease: 'inOutQuad', label: '構え' },
+    { b: 17.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
     { b: 17.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
-    { b: 18.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 18.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 18.50, pose: 'openL', ease: 'outBack', label: '斜め（左）' },
-    { b: 19.00, pose: 'guardR', ease: 'inOutQuad', label: '構え' },
+    { b: 19.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
     { b: 19.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
-    { b: 20.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 20.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 20.50, pose: 'openR', ease: 'outBack', label: '斜め（右）' },
-    { b: 21.00, pose: 'guardL', ease: 'inOutQuad', label: '構え' },
+    { b: 21.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
     { b: 21.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
-    { b: 22.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 22.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 22.50, pose: 'openL', ease: 'outBack', label: '斜め（左）' },
-    { b: 23.00, pose: 'guardR', ease: 'inOutQuad', label: '構え' },
+    { b: 23.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
     { b: 23.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
-    { b: 24.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 24.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
 
     /* --- C 締め --- */
     { b: 24.50, pose: 'openR', ease: 'outBack', label: '締め・斜め（右）' },
-    { b: 25.00, pose: 'guardC', ease: 'inOutQuad', label: '構え' },
+    { b: 25.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 25.50, pose: 'openL', ease: 'outBack', label: '締め・斜め（左）' },
     { b: 26.00, pose: 'finishV', ease: 'outBack', label: '締めポーズ' },
     { b: 27.00, pose: 'stepWide', ease: 'inOutQuad', label: '収める' },
@@ -357,15 +361,19 @@ function danceApply(rig, s, opt) {
     o.rotation.set(v[0] * DANCE_D2R, v[1] * DANCE_D2R, v[2] * DANCE_D2R);
   });
   const g = rig.group;
-  g.position.set(s.rootP[0] * S + (opt.offsetX || 0), s.rootP[1] * S, s.rootP[2] * S);
+  g.position.set(s.rootP[0] * S + (opt.offsetX || 0), 0, s.rootP[2] * S);
   g.rotation.set(s.rootR[0] * DANCE_D2R,
     s.rootR[1] * DANCE_D2R + (opt.yaw || 0), s.rootR[2] * DANCE_D2R);
   if (opt.groundLock !== false && J.ankleL && J.ankleR) {
+    /* 低いほうの足がちょうど床に着く高さへ合わせたうえで、
+       rootP[1] は「そこからさらに浮かせる量」として足す。
+       （先に rootP[1] を入れてしまうと接地補正に打ち消されて効かない） */
     g.updateMatrixWorld(true);
     const a = new THREE.Vector3(), b = new THREE.Vector3();
     J.ankleL.getWorldPosition(a); J.ankleR.getWorldPosition(b);
     g.position.y += (0.168 * S - Math.min(a.y, b.y));
   }
+  g.position.y += Math.max(0, s.rootP[1]) * S;
 }
 
 /* 時間（秒）から一気に更新するショートカット。戻り値は表示用の情報 */
@@ -375,7 +383,15 @@ function danceUpdate(rig, dance, timeSec, opt) {
   const gr = dance.groove;
   if (gr && opt && opt.groove !== false) {
     const bb = gr.bob, sw = gr.sway, hb = gr.headBob;
-    if (bb) s.rootP[1] -= bb.amp * (0.5 + 0.5 * Math.cos(2 * Math.PI * (beat / bb.per)));
+    /* 縦ノリ：拍の頭でいちばん沈む。足は床につけたまま沈みたいので
+       root を下げるのではなく膝を余分に曲げ、股関節と足首で帳尻を合わせる */
+    if (bb) {
+      const k = bb.amp * (0.5 + 0.5 * Math.cos(2 * Math.PI * (beat / bb.per)));
+      s.j.kneeL[0] += k; s.j.kneeR[0] += k;
+      s.j.legL[0] -= k * 0.5; s.j.legR[0] -= k * 0.5;
+      s.j.ankleL[0] -= k * 0.5; s.j.ankleR[0] -= k * 0.5;
+      s.j.spine[0] += k * 0.3;
+    }
     if (sw) s.rootR[2] += sw.amp * Math.sin(2 * Math.PI * (beat / sw.per));
     if (hb) s.j.head[0] += hb.amp * Math.cos(2 * Math.PI * (beat / hb.per));
   }

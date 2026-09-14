@@ -108,9 +108,11 @@ function makeDancer(opt) {
   const torso = new THREE.Mesh(new THREE.BoxGeometry(0.86 * S, 1.0 * S, 0.5 * S), uni);
   torso.castShadow = true; chest.add(torso);
   if (opt.male) torso.scale.x = 1.1;
+  /* 肩：腕を体の前で横切らせると球がぽつんと浮いて見えるので、
+     胴体寄りに置いた横長の楕円体にして胴とつながって見えるようにする */
   [-1, 1].forEach(function (sx) {
-    const s2 = sph(chest, uni, 0.21 * S, sx * 0.43 * S, shoulderY - 0.04 * S, 0);
-    s2.scale.set(1, 1.12, 1);
+    const s2 = sph(chest, uni, 0.2 * S, sx * 0.4 * S, shoulderY - 0.05 * S, 0);
+    s2.scale.set(1.3, 1.0, 0.95);
   });
   /* 襟・ベルト・ボタン・ネクタイ（person() と同じ小物） */
   bx(chest, white, 0.9 * S, 0.16 * S, 0.56 * S, 0, 0.52 * S, 0);

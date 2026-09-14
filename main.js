@@ -141,10 +141,10 @@
   /* ---------------- カメラ操作 ---------------- */
   const cam = { yaw: 0, pitch: 0.14, dist: 7.6, tgt: new THREE.Vector3(0, 1.25, 0) };
   const CAM_PRESET = {
-    front: { yaw: 0, pitch: 0.08, dist: 7.8, y: 1.42 },
-    diag: { yaw: 0.6, pitch: 0.15, dist: 8.0, y: 1.42 },
-    side: { yaw: Math.PI / 2, pitch: 0.06, dist: 7.8, y: 1.42 },
-    back: { yaw: Math.PI, pitch: 0.1, dist: 8.0, y: 1.42 },
+    front: { yaw: 0, pitch: 0.08, dist: 7.1, y: 1.3 },
+    diag: { yaw: 0.6, pitch: 0.15, dist: 7.3, y: 1.3 },
+    side: { yaw: Math.PI / 2, pitch: 0.06, dist: 7.1, y: 1.3 },
+    back: { yaw: Math.PI, pitch: 0.1, dist: 7.3, y: 1.3 },
     high: { yaw: 0.4, pitch: 0.68, dist: 9.2, y: 1.1 },
     low: { yaw: 0.2, pitch: -0.1, dist: 7.2, y: 1.3 }
   };
