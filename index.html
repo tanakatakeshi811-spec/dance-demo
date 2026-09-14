@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ダンスデモ — スイングステップ</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<div id="topbar">
+  <span class="ttl">ダンスデモ</span>
+  <span class="sub" id="danceName">スイングステップ</span>
+  <button id="uiToggle" title="操作パネルの開閉">パネル</button>
+</div>
+
+<div id="readout">
+  <div class="big" id="poseLabel">—</div>
+  <div class="row"><span id="tinfo">0.00s</span> / <span id="binfo">0.0拍</span></div>
+  <div class="row dim" id="poseDetail">—</div>
+</div>
+
+<div id="panel">
+  <div class="grp">
+    <div class="lbl">再生</div>
+    <div class="btns">
+      <button id="btnPlay" class="prim">⏸ 一時停止</button>
+      <button id="btnBack">◀ 1/4拍</button>
+      <button id="btnFwd">1/4拍 ▶</button>
+      <button id="btnTop">⏮ 先頭</button>
+    </div>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">再生位置 <span class="v" id="seekV">0.0 / 28.0 拍</span></div>
+    <input type="range" id="seek" min="0" max="28" step="0.01" value="0">
+  </div>
+
+  <div class="grp">
+    <div class="lbl">速さ <span class="v" id="speedV">1.00x</span></div>
+    <input type="range" id="speed" min="0.05" max="1.5" step="0.05" value="1">
+    <div class="btns sm">
+      <button data-sp="0.15">0.15x</button>
+      <button data-sp="0.3">0.3x</button>
+      <button data-sp="0.5">0.5x</button>
+      <button data-sp="1">1x</button>
+    </div>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">カメラ</div>
+    <div class="btns sm">
+      <button data-cam="front">正面</button>
+      <button data-cam="diag">斜め</button>
+      <button data-cam="side">真横</button>
+      <button data-cam="back">後ろ</button>
+      <button data-cam="high">俯瞰</button>
+      <button data-cam="low">あおり</button>
+    </div>
+    <label class="chk"><input type="checkbox" id="orbit"> ゆっくり回す</label>
+    <div class="hint">画面をドラッグで回転／ホイールでズーム</div>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">キャラクター</div>
+    <div class="btns sm" id="charBtns"></div>
+    <label class="chk"><input type="checkbox" id="multi"> 3人で踊らせる</label>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">表示</div>
+    <label class="chk"><input type="checkbox" id="grid" checked> 床のグリッド</label>
+    <label class="chk"><input type="checkbox" id="shadow" checked> 影</label>
+    <label class="chk"><input type="checkbox" id="trail"> 手の軌跡</label>
+    <label class="chk"><input type="checkbox" id="groove" checked> 縦ノリを乗せる</label>
+    <label class="chk"><input type="checkbox" id="beat"> リズム音を鳴らす</label>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">ポーズ確認</div>
+    <div class="btns sm" id="poseBtns"></div>
+    <div class="hint">押すとそのポーズで止まります（もう一度⏸/▶で再生再開）</div>
+  </div>
+
+  <div class="grp">
+    <div class="lbl">キー操作</div>
+    <div class="hint">スペース＝再生/一時停止　←→＝1/4拍ずつ送る　Shift+←→＝1拍ずつ　Home＝先頭</div>
+  </div>
+</div>
+
+<div id="err"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>if(typeof THREE==='undefined')document.write('<scr'+'ipt src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"><\/scr'+'ipt>');</script>
+<script>if(typeof THREE==='undefined')document.write('<scr'+'ipt src="https://unpkg.com/three@0.128.0/build/three.min.js"><\/scr'+'ipt>');</script>
+<script src="character.js"></script>
+<script src="dance.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
