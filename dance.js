@@ -229,19 +229,19 @@ const DANCE = {
     /* --- B1 主役の動き：左へ4連 → 右へ4連 --- */
     { b: 4.50, pose: 'openL', ease: 'outBack', label: '斜め（左）' },
     { b: 5.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
-    { b: 5.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
+    { b: 5.50, pose: 'swipeL', ease: 'outBack', label: 'ひねって払う（左）' },
     { b: 6.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 6.50, pose: 'openL', ease: 'outBack', label: '斜め（左）' },
     { b: 7.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
-    { b: 7.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
+    { b: 7.50, pose: 'swipeL', ease: 'outBack', label: 'ひねって払う（左）' },
     { b: 8.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 8.50, pose: 'openR', ease: 'outBack', label: '斜め（右）' },
     { b: 9.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
-    { b: 9.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
+    { b: 9.50, pose: 'swipeR', ease: 'outBack', label: 'ひねって払う（右）' },
     { b: 10.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 10.50, pose: 'openR', ease: 'outBack', label: '斜め（右）' },
     { b: 11.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
-    { b: 11.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
+    { b: 11.50, pose: 'swipeR', ease: 'outBack', label: 'ひねって払う（右）' },
     { b: 12.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
 
     /* --- B2 差し色：前へ投げる → 真横に開く → 左右のスワイプ --- */
@@ -249,27 +249,27 @@ const DANCE = {
     { b: 13.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 13.50, pose: 'armsWide', ease: 'outBack', label: '真横に開く' },
     { b: 14.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
-    { b: 14.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
+    { b: 14.50, pose: 'swipeL', ease: 'outBack', label: 'ひねって払う（左）' },
     { b: 15.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
-    { b: 15.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
+    { b: 15.50, pose: 'swipeR', ease: 'outBack', label: 'ひねって払う（右）' },
     { b: 16.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
 
     /* --- B3 主役の動き（2周目）：右から入って左へ --- */
     { b: 16.50, pose: 'openR', ease: 'outBack', label: '斜め（右）' },
     { b: 17.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
-    { b: 17.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
+    { b: 17.50, pose: 'swipeR', ease: 'outBack', label: 'ひねって払う（右）' },
     { b: 18.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 18.50, pose: 'openL', ease: 'outBack', label: '斜め（左）' },
     { b: 19.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
-    { b: 19.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
+    { b: 19.50, pose: 'swipeL', ease: 'outBack', label: 'ひねって払う（左）' },
     { b: 20.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 20.50, pose: 'openR', ease: 'outBack', label: '斜め（右）' },
     { b: 21.00, pose: 'guardL', ease: 'outCubic', label: '構え' },
-    { b: 21.50, pose: 'swipeR', ease: 'outBack', label: '頭上スワイプ（右）' },
+    { b: 21.50, pose: 'swipeR', ease: 'outBack', label: 'ひねって払う（右）' },
     { b: 22.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
     { b: 22.50, pose: 'openL', ease: 'outBack', label: '斜め（左）' },
     { b: 23.00, pose: 'guardR', ease: 'outCubic', label: '構え' },
-    { b: 23.50, pose: 'swipeL', ease: 'outBack', label: '頭上スワイプ（左）' },
+    { b: 23.50, pose: 'swipeL', ease: 'outBack', label: 'ひねって払う（左）' },
     { b: 24.00, pose: 'guardC', ease: 'outCubic', label: '構え' },
 
     /* --- C 締め --- */
@@ -331,7 +331,8 @@ function danceSample(dance, beat) {
   const span = Math.max(1e-6, c.b - a.b);
   const raw = Math.max(0, Math.min(1, (b - a.b) / span));
   const t = (DANCE_EASE[c.ease] || DANCE_EASE.inOutQuad)(raw);
-  const out = { j: {}, label: raw < 0.6 ? c.label : c.label, from: a.pose, to: c.pose, t: raw };
+  /* 表示用のラベルは「いま体がいるほうのポーズ」を出す（前半は直前のキー） */
+  const out = { j: {}, label: raw < 0.5 ? a.label : c.label, from: a.pose, to: c.pose, t: raw };
   DANCE_JOINT_NAMES.forEach(function (n) {
     const p = a.j[n], q = c.j[n];
     out.j[n] = [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t, p[2] + (q[2] - p[2]) * t];
